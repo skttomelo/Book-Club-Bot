@@ -1,2 +1,2 @@
 # Book-Club-Bot
-Scrapes Wattpad for book info and pm's admins requests with the info
+pm's admins requests with the info on book request that can be accepted/denied
