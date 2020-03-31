@@ -5,10 +5,10 @@ class Form:
         self.story_details = {
             'link': "",
             'author': "",
-            'cover_url': "There wasn't a cover image url",
+            'cover_url': "", # There wasn't a cover image url
             'title': "",
             'genre': "",
-            'warning': "No warnings",
+            'warning': "", # No warnings
             'description': "",
-            'length': "Unknown",
+            'length': "", # Unknown
         }

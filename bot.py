@@ -23,7 +23,7 @@ class MyClient(discord.Client):
         if message.content == '!vote':
             await self.vote(message)
             return
-        # await dm_chat(message)
+        await self.form_fill_out(message)
 
     async def vote(self, message):
         # if sender has never created a form
@@ -35,11 +35,11 @@ class MyClient(discord.Client):
 
         # if the sender already has a form going
         if inprogress[message.author.id] == True:
-            await self.send('You already have a vote form in progress. Please finish it or cancel it using the :x: emoji.')
+            await message.author.send('You already have a vote form in progress. Please finish it or cancel it by sending the :x: emoji.')
             return
         
         inprogress[message.author.id] = True
-        await message.author.send("Let's begin :smile:\n")
+        await message.author.send("Let's begin :smile:\nIf at any point you would like to cancel the form, please send the :x: emoji.")
 
         # grab the form that is incomplete and continue off point that hasn't been filled out
         for form in forms:
@@ -48,18 +48,39 @@ class MyClient(discord.Client):
                     continue
                 for info in array.story_details:
                     if array.story_details[info] == '':
-                        await message.author.send(f'{info.title()} (if this doesn\'t exist, please use a :no_entry_sign: emoji):')
+                        await message.author.send(f'Story {info.title()} (if this doesn\'t exist, please message a :no_entry_sign: emoji):')
                         break
 
     
     # handles where the sender is in the form process as well as cancelling form if user wants that
     async def form_fill_out(self, message):
-        pass
-    
+        
+        if await self.dm_chat(message):
+            # grab most recent message from user and bot
+            history = await message.channel.history(limit=2).flatten()
 
+            if history[0].author == self.user:
+                return
+
+            # if the user responds with an x emoji we cancel the form... eventually when I add that in
+            if history[0].content == ':x:':
+                return
+            
+            # if it's from the user then we want to store that answer
+            # after that we want to ask the next question if there exist one
+            # otherwise we mark the form as completed and mark inprogress as false
+            loc = 0
+            for form in forms:
+                for (i, array) in enumerate(forms[form]):
+                    if array.completed == True:
+                        continue
+                    loc = i
+                    for info in array.story_details:
+                        if array.story_details[info] == '':
+                            pass  
+                                
     async def dm_chat(self, message):
-        if isinstance(message.channel, discord.DMChannel):
-            pass
+        return isinstance(message.channel, discord.DMChannel)
             
             
         
