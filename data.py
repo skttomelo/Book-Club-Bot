@@ -3,12 +3,12 @@ class Form:
         self.author_id = author_id
         self.completed = False
         self.story_details = {
-            'link': "",
+            'Link to the story': "",
             'author': "",
-            'cover_url': "", # There wasn't a cover image url
+            'cover url': "", # There wasn't a cover image url
             'title': "",
             'genre': "",
-            'warning': "", # No warnings
+            'warnings': "", # No warnings
             'description': "",
             'length': "", # Unknown
         }
