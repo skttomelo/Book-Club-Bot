@@ -60,7 +60,7 @@ class MyClient(discord.Client):
     # handles where the sender is in the form process as well as cancelling form if user wants that
     async def form_fill_out(self, message):
         
-        if await self.dm_chat(message):
+        if isinstance(message.channel, discord.DMChannel) == True:
             # grab most recent message from user and bot
 
             if message.author.id == self.user.id:
@@ -89,9 +89,6 @@ class MyClient(discord.Client):
                                 array.completed = True
                                 inprogress[message.author.id] = False
                                 await message.author.send('Thank you for filling out this request :smile: Your request will be reviewed soon :nerd:')
-                                
-    async def dm_chat(self, message):
-        return isinstance(message.channel, discord.DMChannel)
             
             
         
